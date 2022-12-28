@@ -1,0 +1,173 @@
+#주석
+--주석
+여러줄 주석 
+*/
+
+--클릭은 Use empdb;
+--employees 테이블 데이터 조회
+SELECT * FROM employees;
+SELECT * FROM departments;
+SELECT employee_id,first_name FROM employees;
+SELECT EMPLOYEE_ID AS 사번, FIRST_NAME AS 이름 FROM employees;
+SELECT EMPLOYEE_ID "사 번", FIRST_NAME 이름 FROM employees; # "안에  띄워쓰기 가능
+
+DESCRIBE employees;
+
+
+SELECT first_name,salary FROM employees;
+
+--연봉,salary*12
+
+SELECT first_name, SALARY, salary*12 AS '연봉'  FROM employees;
+
+--사원 속한 부서코드 종류 조회 -중복말고 1번
+SELECT DISTINCT Department_id FROM employees;
+
+select last_name,department_id
+from employees
+where department_id=80;
+
+select employee_id,salary,first_name from employees where salary >= 10000 and employee_id< 200;
+
+select salary,first_name from employees where salary >= 10000 and salary< 15000;
+
+SELECT salary,first_NAME FROM employees WHERE salary BETWEEN 10000 AND 15000;
+
+select first_name from employees;
+
+-- db(maria db- 대소문자 구분 없다,'',"")
+
+SELECT first_name from employees where first_name='steven';
+
+-- s로 시작하는 사원 first_name 조회
+SELECT first_name FROM employees WHERE first_name LIKE 's%';
+
+--	ER로 끝나는 사람 조회
+SELECT FIRST_NAME FROM employees WHERE FIRST_NAME LIKE '%ER';
+
+SELECT EMPLOYEE_ID,SALARY * 1.1 AS 인상급여
+FROM employees
+WHERE EMPLOYEE_ID IN(100,200,150,222);
+
+-- 이름이 5글자 이면서 ER 끝나는 사원의
+
+SELECT FIRST_NAME FROM employees WHERE FIRST_NAME LIKE '%ER' AND FIRST_NAME LIKE '___ER';
+
+--입사일 조회 -datetime 형태
+SELECT first_name,hire_date FROM employees;
+
+DESC employees;
+
+--2002년 입사자의 이름, 입사일 조회--문자열,날자형 - '',""
+SELECT FIRST_NAME,HIRE_DATE FROM employees WHERE hire_date LIKE '2002%';
+
+-- 6월 입사자 조회
+SELECT FIRST_NAME,HIRE_DATE FROM employees WHERE hire_date LIKE '_____06%';
+
+--커미션 받는 사원
+SELECT FIRST_NAME,COMMISSION_PCT FROM employees WHERE commission_pct IS not NULL;
+ 
+ --NULL 우선
+SELECT EMPLOYEE_ID FROM employees  ORDER BY EMPLOYEE_ID LIMIT 8,4;
+
+--NULL 나중
+SELECT EMPLOYEE_ID,COMMISSION_PCT FROM employees ORDER BY EMPLOYEE_ID DESC;
+
+--NULL 먼저,역순
+SELECT EMPLOYEE_ID,COMMISSION_PCT FROM employees ORDER BY COMMISSION_PCT DESC;
+
+--부서코드 오름차순, 동일 부서코드인 경우 급여 많은 사원부터 조회.
+SELECT FIRST_NAME,SALARY,DEPARTMENT_ID FROM employees ORDER BY DEPARTMENT_ID,SALARY DESC;
+
+--급여 총합 평균
+SELECT SUM(SALARY),AVG(SALARY),COUNT(SALARY),MAX(SALARY),MIN(SALARY) FROM employees;
+
+--입사일
+SELECT COUNT(HIRE_dATE),MAX(HiRE_DATE),MIN(HIRE_DATE) FROM employees;
+
+
+--커미션(null 많다)
+SELECT COUNT(COMMISSION_PCT) FROM employees;
+
+--NULL 포함 테이블 레코드
+SELECT COUNT(*) FROM employees;
+
+--
+SELECT FIRST_NAME,DEPARTMENT_ID FROM employees
+WHERE DEPARTMENT_ID IS NULL;
+
+SELECT COUNT(DEPARTMENT_ID) FROM employees;
+
+--사원이름,전체 사원 급여 총합 조회
+SELECT FIRST_NAME,SUM(SALARY) FROM employees;
+
+SELECT COUNT(DISTINCT DEPARTMENT_ID) FROM employees;
+
+--50번 부서 사원 급여총합 조회
+SELECT SUM(SALARY)
+FROM employees
+WHERE DEPARTMENT_ID=50;
+
+--각 부서별 부서 사원 급여총합 조회
+SELECT DEPARTMENT_ID,SUM(SALARY) FROM employees WHERE DEPARTMENT_ID GROUP BY DEPARTMENT_ID;
+
+--각 부서별 부서 사원 급여총합 조회 , 단 부서코드 없는 사원 제외
+SELECT DEPARTMENT_ID,SUM(SALARY) FROM employees WHERE DEPARTMENT_ID IS NOT NULL GROUP BY DEPARTMENT_ID;
+
+--각 부서별,직종별 부서 사원 급여총합 조회 , 단 부서코드 없는 사원 제외
+SELECT DEPARTMENT_ID,JOB_ID,SUM(SALARY) FROM employees WHERE DEPARTMENT_ID IS NOT NULL AND JOB_ID IS NOT NULL GROUP BY DEPARTMENT_ID,JOB_ID;
+
+--각 부서별 부서 사원 급여총합 조회 , 단 부서코드 없는 사원 제외하고 급여총합 10만 이상인 부서만 조회
+SELECT DEPARTMENT_ID,SUM(SALARY) FROM employees WHERE DEPARTMENT_ID IS NOT NULL GROUP BY DEPARTMENT_ID HAVING SUM(SALARY)>100000 ORDER BY 2 DESC;
+--ORDER BY SUM(SALARY) DESC;
+
+--DAY 1 실습
+SELECT FIRST_NAME AS 이름 ,SALARY*12 AS "월급의 12배"  FROM employees WHERE SALARY*12>=170000;
+
+SELECT FIRST_NAME,SALARY FROM employees WHERE MANAGER_ID IS NULL;
+
+SELECT FIRST_NAME,SALARY,HIRE_DATE FROM employees WHERE HIRE_DATE <'2004-1-1 00:00:00';
+
+SELECT DEPARTMENT_ID,DEPARTMENT_NAME FROM departments;
+
+SELECT job_ID,JOB_TITLE FROM jobs;
+
+SELECT FIRST_NAME,SALARY,DEPARTMENT_ID FROM employees WHERE SALARY>=13000;
+
+SELECT FIRST_NAME,SALARY,DEPARTMENT_ID,HIRE_DATE FROM EMPLOYEES WHERE HIRE_DATE > "2005-12-31 00:00:00";
+
+SELECT FIRST_NAME,SALARY,DEPARTMENT_ID FROM employees WHERE DEPARTMENT_ID= 50 OR DEPARTMENT_ID=80 HAVING SALARY>=13000;
+
+SELECT FIRST_NAME,SALARY,DEPARTMENT_ID,HIRE_dATE FROM employees WHERE HIRE_DATE > "2005-12-31 00:00:00" HAVING SALARY >= 1300 AND SALARY <= 20000;
+
+SELECT FIRST_NAME,SALARY,JOB_ID FROM employees WHERE HIRE_DATE> "__05%";
+
+SELECT FIRST_NAME,SALARY,JOB_ID FROM employees WHERE JOB_ID LIKE "%CLERK%" OR JOB_ID LIKE "%CLERK";
+
+SELECT FIRST_NAME,SALARY,HIRE_DATE FROM employees WHERE HIRE_dATE LIKE "_____12%";
+
+SELECT FIRST_NAME,SALARY,HIRE_DATE FROM employees WHERE FIRST_NAME LIKE "%LE%";
+
+SELECT FIRST_NAME,SALARY,HIRE_DATE FROM employees WHERE FIRST_NAME LIKE "%M";
+
+SELECT FIRST_NAME,SALARY,HIRE_DATE FROM employees WHERE FIRST_NAME LIKE "__D%";
+
+SELECT FIRST_NAME,COMMISSION_PCT FROM EMPLOYEES WHERE COMMISSION_PCT IS NOT NULL;
+
+SELECT FIRST_NAME,COMMISSION_PCT FROM EMPLOYEES WHERE COMMISSION_PCT IS NULL;
+
+SELECT FIRST_NAME,HIRE_DATE,SALARY FROM employees WHERE DEPARTMENT_ID= 30 OR DEPARTMENT_ID=50 OR DEPARTMENT_ID=80 AND COMMISSION_PCT IS NOT NULL HAVING SALARY>=5000 AND SALARY<= 17000 ORDER BY HIRE_DATE ASC, SALARY DESC;
+
+SELECT DEPARTMENT_ID,MAX(SALARY),MIN(SALARY) FROM employees GROUP BY DEPARTMENT_ID HAVING MAX(SALARY) != MIN(SALARY);
+
+SELECT DEPARTMENT_ID,COUNT(DEPARTMENT_ID) FROM employees GROUP BY DEPARTMENT_ID HAVING COUNT(DEPARTMENT_ID)>=5;
+
+DESC employees; --테이블 컬럼들  조회
+
+
+emp_copy CREATE TABLE emp_copy (SELECT employee_id, first_name, last_name, salary, hire_date, department_id FROM employees);
+
+DESC emp_copy;
+
+SELECT COUNT(*) FROM emp_copy;
+
