@@ -112,4 +112,8 @@ having h!=3;
 -- mysql -u root -p 1234
 -- create user jdbc@'%' identified by 'jdbc';
 -- create database memberdb;
--- grant all privileges on memberdb.* to jdbc@'%';
+-- grant all privileges on memberdb.* to jdbc@'%';membermemberdb
+
+INSERT INTO member VALUES
+('deletetest','deletetest','이상형','01098765432','lee@B.COM', '모름',subdate(NOW(), INTERVAL 2 YEAR));
+SELECT * FROM member;

@@ -32,26 +32,26 @@ SELECT first_name,department_name, max(salary) FROM employees e JOIN departments
 ON e.department_id=d.department_id group BY e.department_id;
 
 -- 5. 미해결
-SELECT first_name, department_id, salary, minsalay 최소급여
-(case when salary >= MIN(salary) 
-FROM employees e GROUP BY department_id
-INNER JOIN(SELECT 
-;
+SELECT first_name, department_id, salary, 
+(SELECT MIN(salary)  FROM employees WHERE e.department_id=department_id) 최소급여
+FROM employees e;
+
 
 SELECT * FROM locations;
 SELECT * FROM employees;
 
 -- 6.
 SELECT month(hire_date) 월별  ,COUNT(*) from employees GROUP BY 월별  HAVING COUNT(*)>=10;
+SELECT MONTH(hire_date) 월별, COUNT(*)입사자 FROM employees GROUP BY 월별 HAVING 입사자>=10;
+
 
 SELECT * FROM jobs;
 
 SELECT * FROM departments;
-SELECT * FROM users;
-
+SELECT * FROM employees WHERE first_name="gerald" OR first_name="eleni"; -- 11000,10500
+SELECT * FROM employees WHERE employee_id=100;
 -- 7 . 미해결
-SELECT e.first_name,e.salary FROM employees e JOIN employees man ON e.employee_id=man.manager_id group by e.employee_id=man.manager_id having e.salary>man.salary;
-
+SELECT e.first_name,man.salary FROM employees e JOIN employees man ON man.manager_id=e.employee_id WHERE man.manager_id=e.employee_id AND man.salary<e.salary;
 
 -- 8.
 SELECT first_name, salary, job_title
@@ -80,3 +80,12 @@ SELECT job_title,(department_id,AVG(salary)
 FROM employees GROUP BY department_id having avg(salary) > (SELECT AVG(salary) FROM employees GROUP BY department_id having department_id=50))
 FROM employees e JOIN jobs j ON e.job_id=j.job_id GROUP BY job_title HAVING AVG(salary) > (SELECT AVG(salary) FROM employees GROUP BY department_id having department_id=50);
 
+SELECT * FROM member;
+
+CREATE TABLE deletedmember(SELECT * FROM member);
+
+SELECT * FROM deletedmember;
+
+DELETE FROM deletedmember;
+
+INSERT INTO member VALUES ('deletetest','deletetest','이상형','010234232','lee@b.com','오름',SUBDATE(NOW());
